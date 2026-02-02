@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Infos visiteur</title>
+</head>
+<body>
+  <h1>Informations détectées</h1>
+  <pre id="infos">Chargement...</pre>
+
+  <script>
+    const infos = {
+      langue: navigator.language,
+      navigateur: navigator.userAgent,
+      plateforme: navigator.platform,
+      ecran: screen.width + "x" + screen.height,
+      fuseau: Intl.DateTimeFormat().resolvedOptions().timeZone
+    };
+
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        infos.ip = data.ip;
+        infos.pays = data.country_name;
+        infos.ville = data.city;
+
+        document.getElementById("infos").textContent =
+          JSON.stringify(infos, null, 2);
+      });
+  </script>
+</body>
+</html>
